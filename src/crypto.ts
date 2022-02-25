@@ -3,7 +3,8 @@
  *
  * @returns An object implementing the Web Crypto API.
  */
-async function loadCrypto(): Promise<Crypto> {
+
+function loadCrypto(): Crypto {
     if (
         (typeof window !== 'undefined' && window.crypto) ||
         (globalThis && globalThis.crypto)
@@ -12,13 +13,13 @@ async function loadCrypto(): Promise<Crypto> {
         // runtimes with `globalThis` like Deno or CloudFlare Workers
         const crypto = window.crypto || globalThis.crypto
 
-        return new Promise((resolve) => resolve(crypto))
+        return crypto
     } else {
         // Running in Node.js >= 15
-        const nodeCrypto = await import('crypto')
+        const nodeCrypto = require('crypto')
         return nodeCrypto.webcrypto as unknown as Crypto
     }
 }
 
-const crypto = await loadCrypto()
+const crypto = loadCrypto()
 export default crypto

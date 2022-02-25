@@ -1,5 +1,5 @@
-import { readFile, writeFile } from 'fs/promises'
-import { resolve } from 'path'
+const { readFile, writeFile } = require('fs/promises')
+const { resolve }= require('path')
 
 const HTML_FILE_PATH = resolve('web', 'build', 'index.html')
 const HTML_OUT_FILE_PATH = resolve('src', 'decrypt-template.html')
@@ -28,7 +28,14 @@ const preparePayloadTag = (html) =>
 
 const deleteViteModuleScript = (html) => {
     const match = html.match(/(<script type="module">[\s\S]*)var [\s\S]*;(\!function\(\)\{[\s\S]*\}\(\);)/)
-    return html.replace(match[1], '  <script type="module">').replace(match[2], '')
+
+    if (match) {
+        // TODO no matches...
+        return html.replace(match[1], '  <script type="module">').replace(match[2], '')
+    }
+    else {
+        return html
+    }
 }
 
 const deleteStyleAssetComment = (html) =>
@@ -47,4 +54,7 @@ const fixWhiteSpace = (html) =>
 const applyAllTransformations = (fns, initialValue) =>
     fns.reduce((prevResult, fn) => fn(prevResult), initialValue)
 
-await main()
+// Call start
+;(async () => {
+    await main()
+})()
