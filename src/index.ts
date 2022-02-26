@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from 'fs/promises'
 import { resolve, dirname } from 'path'
 
-import { generatePassword, encryptHTML } from './core'
+import { generatePassword, encryptHTML, generateRandomSalt } from './core'
 
 /**
  * Encrypt a HTML file with a given password.
@@ -54,4 +54,4 @@ async function encrypt(inputFile: string, outputFile: string, password: string) 
     return await saveFile(outputFile, encrypted)
 }
 
-export { encrypt, generatePassword, encryptHTML }
+export { encrypt, generatePassword, encryptHTML, generateRandomSalt }

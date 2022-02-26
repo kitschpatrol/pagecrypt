@@ -10,11 +10,22 @@ import decryptTemplate from './decrypt-template.html'
  *
  * @param {string} content The data to encrypt
  * @param {string} password The password which will be used to encrypt + decrypt the content.
+ * @param {Uint8Array} customSalt Optional custom salt value for encoding multiple files with the same key. Less secure!*
  * @returns an encrypted payload
  */
-async function getEncryptedPayload(content: string, password: string) {
+async function getEncryptedPayload(
+    content: string,
+    password: string,
+    customSalt?: Uint8Array,
+) {
     const encoder = new TextEncoder()
-    const salt = crypto.getRandomValues(new Uint8Array(32))
+
+    // Validate custom salt, or generate
+    const salt =
+        typeof customSalt !== 'undefined' && customSalt.length >= 32
+            ? customSalt
+            : generateRandomSalt()
+
     const baseKey = await crypto.subtle.importKey(
         'raw',
         encoder.encode(password),
@@ -53,14 +64,20 @@ async function getEncryptedPayload(content: string, password: string) {
  *
  * @param {string} inputHTML The HTML string to encrypt.
  * @param {string} password The password which will be used to encrypt + decrypt the content.
+ * @param {Uint8Array} customSalt Optional custom salt value for encoding multiple files with the same key. Less secure!*
  * @returns A promise that will resolve with the encrypted HTML content
  */
-export async function encryptHTML(inputHTML: string, password: string) {
+export async function encryptHTML(
+    inputHTML: string,
+    password: string,
+    customSalt?: Uint8Array,
+) {
     return (decryptTemplate as string).replace(
         /<!--ENCRYPTED PAYLOAD-->/,
         `<pre class="hidden">${await getEncryptedPayload(
             inputHTML,
             password,
+            customSalt,
         )}</pre>`,
     )
 }
@@ -101,4 +118,13 @@ function getRandomCharacter(characters: string) {
     } while (randomNumber >= 256 - (256 % characters.length))
 
     return characters[randomNumber % characters.length]
+}
+
+/**
+ * Generate a random salt.
+ *
+ * @returns {Uint8Array} A random salt.
+ */
+export function generateRandomSalt(): Uint8Array {
+    return crypto.getRandomValues(new Uint8Array(32))
 }
