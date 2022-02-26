@@ -12,7 +12,7 @@
         "dev:web": "vite",
         "build:web": "vite build && node scripts/postbuild.js",
         "serve:web": "vite preview",
-        "prepare": "npm run build"
+        "prepare": "npm run build && cp dist/* ."
     },
     "author": "Samuel Plumppu",
     "license": "MIT",
