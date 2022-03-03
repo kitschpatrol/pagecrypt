@@ -20,6 +20,8 @@ async function getEncryptedPayload(
 ) {
     const encoder = new TextEncoder()
 
+    // Default embedding values
+
     // Validate custom salt, or generate
     const salt =
         typeof customSalt !== 'undefined' && customSalt.length >= 32
@@ -64,15 +66,19 @@ async function getEncryptedPayload(
  *
  * @param {string} inputHTML The HTML string to encrypt.
  * @param {string} password The password which will be used to encrypt + decrypt the content.
- * @param {Uint8Array} customSalt Optional custom salt value for encoding multiple files with the same key. Less secure!*
+ * @param {boolean} embedScript Should the decryption javascript be embedded inline in the encrypted html (sometimes useful for CSP reasons)
+ * @param {boolean} embedStyle Should CSS stylesheet be embedded inline in the encrypted html (sometimes useful for CSP reasons)
+ * @param {Uint8Array} customSalt Optional custom salt value for encoding multiple files with the same key. Less secure!
  * @returns A promise that will resolve with the encrypted HTML content
  */
 export async function encryptHTML(
     inputHTML: string,
     password: string,
+    embedScript: boolean = true,
+    embedStyle: boolean = true,
     customSalt?: Uint8Array,
 ) {
-    return (decryptTemplate as string).replace(
+    let encryptedHtml = (decryptTemplate as string).replace(
         /<!--ENCRYPTED PAYLOAD-->/,
         `<pre class="hidden">${await getEncryptedPayload(
             inputHTML,
@@ -80,6 +86,22 @@ export async function encryptHTML(
             customSalt,
         )}</pre>`,
     )
+
+    // Strip the embedded style and script if we want to provide it externally
+    // This is not good, should use a DOM library
+    if (!embedScript) {
+        encryptedHtml = encryptedHtml.replace(
+            /<script type=\"module\">.*?<\/script>/is,
+            '',
+        )
+    }
+
+    // Strip the style...
+    if (!embedStyle) {
+        encryptedHtml = encryptedHtml.replace(/<style>.*?<\/style>/is, '')
+    }
+
+    return encryptedHtml
 }
 
 /**
