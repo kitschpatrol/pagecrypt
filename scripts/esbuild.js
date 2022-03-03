@@ -50,24 +50,28 @@ const { emptyDir, copy, remove, readJson, writeJson } = fse
                 copy('./LICENSE.md', resolve(distDir, 'LICENSE.md')),
                 copy('./CHANGELOG.md', resolve(distDir, 'CHANGELOG.md')),
                 copy('./README.md', resolve(distDir, 'README.md')),
-                copy('./web/build/assets/', resolve(distDir, 'client')),
             ])
 
             // For CSP reasons it is sometimes simpler to host a script instead of inlining it
             // So we are pulling out the web script as part of the distribution
             // This is not good and makes a lot of assumptions...
+            // Copy from the web build folder, and rename for easier linking
             // Better to generate a nonce...
-            const webDir = await fse.readdir(resolve(distDir, 'client'))
+            const webDir = await fse.readdir('./web/build/assets')
             for await (const file of webDir) {
-                console.log(file)
-                fse.rename(
-                    resolve(distDir, 'client', file),
-                    resolve(
-                        distDir,
-                        'client',
-                        'pagecrypt' + '.' + file.split('.').pop(),
-                    ),
-                )
+                if (/style\..+\.css/.test(file)) {
+                    copy(
+                        resolve('./web/build/assets', file),
+                        resolve(distDir, 'pagecrypt.css'),
+                    )
+                }
+
+                if (/index\..+\.js/.test(file)) {
+                    copy(
+                        resolve('./web/build/assets', file),
+                        resolve(distDir, 'pagecrypt.js'),
+                    )
+                }
             }
 
             // Prepare package.json for publishing.
