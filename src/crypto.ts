@@ -5,15 +5,12 @@
  */
 
 function loadCrypto(): Crypto {
-    if (
-        (typeof window !== 'undefined' && window.crypto) ||
-        (globalThis && globalThis.crypto)
-    ) {
+    if (typeof window !== 'undefined' && window.crypto) {
         // Running in browsers released after 2017, and other
+        return window.crypto
+    } else if (globalThis && globalThis.crypto) {
         // runtimes with `globalThis` like Deno or CloudFlare Workers
-        const crypto = window.crypto || globalThis.crypto
-
-        return crypto
+        return globalThis.crypto
     } else {
         // Running in Node.js >= 15
         const nodeCrypto = require('crypto')
