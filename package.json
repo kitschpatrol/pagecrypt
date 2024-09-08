@@ -4,15 +4,15 @@
     "description": "Easily add client-side password-protection to your Single Page Applications and HTML files.",
     "main": "src/index.ts",
     "scripts": {
-        "test": "cd ./test && npm test && cd ..",
-        "test:build": "npm run build && cd dist && npm pack && cd ../test && npm i ../dist/pagecrypt-5.3.0.tgz && npm run test && cd ..",
-        "test:verify": "cd test && npm run test:verify && cd ..",
-        "build": "npm run build:web && npm run build:lib",
+        "test": "cd ./test && pnpm test && cd ..",
+        "test:build": "pnpm run build && cd dist && pnpm pack && cd ../test && pnpm i ../dist/pagecrypt-5.3.0.tgz && pnpm run test && cd ..",
+        "test:verify": "cd test && pnpm run test:verify && cd ..",
+        "build": "pnpm run build:web && pnpm run build:lib",
         "build:lib": "node ./scripts/esbuild.js",
         "dev:web": "vite",
         "build:web": "vite build && node scripts/postbuild.js",
         "serve:web": "vite preview",
-        "prepare": "npm run build && cp dist/* ."
+        "prepack": "pnpm run build && cp dist/* ."
     },
     "author": "Samuel Plumppu",
     "license": "MIT",
@@ -33,7 +33,8 @@
         "vite-plugin-singlefile": "^0.5.1"
     },
     "engines": {
-        "node": ">= 15.0.0"
+        "node": ">= 15.0.0",
+        "pnpm": ">= 9.0.0"
     },
     "engineStrict": true,
     "bin": {
@@ -62,5 +63,6 @@
         "url": "https://github.com/Greenheart/pagecrypt/issues"
     },
     "homepage": "https://github.com/Greenheart/pagecrypt#readme",
-    "private": true
+    "private": true,
+    "packageManager": "pnpm@9.9.0+sha512.60c18acd138bff695d339be6ad13f7e936eea6745660d4cc4a776d5247c540d0edee1a563695c183a66eb917ef88f2b4feb1fc25f32a7adcadc7aaf3438e99c1"
 }
