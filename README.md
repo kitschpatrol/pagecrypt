@@ -1,3 +1,7 @@
+This fork includes some minor changes specific to [frontiernerds.com](https://frontiernerds.com).
+
+---
+
 # 🔐 PageCrypt - Password Protected Single Page Applications and HTML files
 
 > Easily add client-side password-protection to your Single Page Applications and HTML files.
