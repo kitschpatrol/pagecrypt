@@ -1,5 +1,5 @@
 const { readFile, writeFile } = require('fs/promises')
-const { resolve }= require('path')
+const { resolve } = require('path')
 
 const HTML_FILE_PATH = resolve('web', 'build', 'index.html')
 const HTML_OUT_FILE_PATH = resolve('src', 'decrypt-template.html')
@@ -27,13 +27,16 @@ const preparePayloadTag = (html) =>
     )
 
 const deleteViteModuleScript = (html) => {
-    const match = html.match(/(<script type="module">[\s\S]*)var [\s\S]*;(\!function\(\)\{[\s\S]*\}\(\);)/)
+    const match = html.match(
+        /(<script type="module">[\s\S]*)var [\s\S]*;(\!function\(\)\{[\s\S]*\}\(\);)/,
+    )
 
     if (match) {
         // TODO no matches...
-        return html.replace(match[1], '  <script type="module">').replace(match[2], '')
-    }
-    else {
+        return html
+            .replace(match[1], '  <script type="module">')
+            .replace(match[2], '')
+    } else {
         return html
     }
 }

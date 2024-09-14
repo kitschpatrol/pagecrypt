@@ -22,9 +22,9 @@ module.exports = {
             black: colors.black,
         },
         screens: {
-            'xs': '475px',
+            xs: '475px',
             ...defaultTheme.screens,
-        }
+        },
     },
     variants: {},
     plugins: [],

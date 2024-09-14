@@ -49,7 +49,11 @@ async function saveFile(outputFile: string, content: string) {
  * @param {string} password The password which will be used to encrypt + decrypt the content.
  * @returns A promise that will resolve when the encrypted file has been saved.
  */
-async function encrypt(inputFile: string, outputFile: string, password: string) {
+async function encrypt(
+    inputFile: string,
+    outputFile: string,
+    password: string,
+) {
     const encrypted = await encryptFile(inputFile, password)
     return await saveFile(outputFile, encrypted)
 }
