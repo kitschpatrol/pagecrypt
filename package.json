@@ -17,25 +17,25 @@
     "author": "Samuel Plumppu",
     "license": "MIT",
     "dependencies": {
-        "rfc4648": "^1.5.3",
+        "rfc4648": "^1.5.4",
         "sade": "^1.8.1"
     },
     "devDependencies": {
         "@types/fs-extra": "^9.0.13",
-        "@types/node": "^16.18.108",
-        "autoprefixer": "^10.4.20",
+        "@types/node": "^16.18.126",
+        "autoprefixer": "^10.4.22",
         "esbuild": "^0.13.15",
         "fs-extra": "^10.1.0",
-        "postcss": "^8.4.47",
-        "prettier": "^3.3.3",
+        "postcss": "^8.5.6",
+        "prettier": "^3.7.4",
         "tailwindcss": "^2.2.19",
         "typescript": "^4.9.5",
         "vite": "^2.9.18",
         "vite-plugin-singlefile": "^0.5.1"
     },
     "engines": {
-        "node": ">= 15.0.0",
-        "pnpm": ">= 9.0.0"
+        "node": ">=20.19.0",
+        "pnpm": ">=10.0.0"
     },
     "engineStrict": true,
     "bin": {
@@ -65,5 +65,5 @@
     },
     "homepage": "https://github.com/Greenheart/pagecrypt#readme",
     "private": true,
-    "packageManager": "pnpm@9.10.0"
+    "packageManager": "pnpm@10.24.0"
 }
