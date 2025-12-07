@@ -12,10 +12,12 @@
         "dev:web": "vite",
         "build:web": "vite build && node scripts/postbuild.js",
         "serve:web": "vite preview",
-        "prepare": "pnpm run build && cp dist/* .",
         "prepack": "pnpm run build && cp dist/* ."
     },
     "author": "Samuel Plumppu",
+    "files": [
+        "*"
+    ],
     "license": "MIT",
     "dependencies": {
         "rfc4648": "^1.5.4",
