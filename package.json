@@ -5,14 +5,14 @@
     "main": "src/index.ts",
     "scripts": {
         "test": "cd ./test && pnpm test && cd ..",
-        "test:build": "pnpm run build && cd dist && pnpm pack && cd ../test && pnpm i ../dist/pagecrypt-5.3.0.tgz && pnpm run test && cd ..",
-        "test:verify": "cd test && pnpm run test:verify && cd ..",
-        "build": "pnpm run build:web && pnpm run build:lib",
+        "test:build": "pnpm build && cd dist && pnpm pack && cd ../test && pnpm i ../dist/pagecrypt-5.3.0.tgz && pnpm test && cd ..",
+        "test:verify": "cd test && pnpm test:verify && cd ..",
+        "build": "pnpm build:web && pnpm build:lib",
         "build:lib": "node ./scripts/esbuild.js",
         "dev:web": "vite",
         "build:web": "vite build && node scripts/postbuild.js",
         "serve:web": "vite preview",
-        "prepare": "pnpm run build",
+        "prepare": "pnpm build",
         "prepack": "cp dist/* . 2>/dev/null || true"
     },
     "author": "Samuel Plumppu",
